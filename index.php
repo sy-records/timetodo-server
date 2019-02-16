@@ -1,6 +1,6 @@
 <?php
 require '_lp.php';
-$APIKEY = ""; // 添加调用保护
+$APIKEY = ''; // 添加调用保护
 if(strlen($APIKEY) > 0 && t(v('key')) != $APIKEY ) {
     return send_error("错误的Key");
 }
@@ -115,17 +115,17 @@ default:
         $ret['js'] = "alert('Saved to ". $out[1] ." 🤠 ')";
     }
     elseif(preg_match("/:load\s(.+?)$/i", $cmd, $out) ) {
-        if($new_todos = file_get_contents("./ttd/". md5($out[1]) .".json")) {
+        if (file_exists("./ttd/". md5($out[1]) .".json")) {
+            $new_todos = file_get_contents("./ttd/". md5($out[1]) .".json");
             $ret['js'] = "this.props.store.todo_load_base64('". base64_encode($new_todos) ."')";
         } else {
-            $ret['js'] = "alert('Todo list [" . $out . "] not found  🙃 ')";
+            $ret['js'] = "alert('Todo list [" . $out[1] . "] not found  🙃 ')";
         }
     }
     else
     {
         $ret['js'] = 'alert("输入的命令是' . $cmd . '")';
     }
-
 }
 // $ret['cmd'] = 'app.quit()';
 return send_result($ret);
